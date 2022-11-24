@@ -47,6 +47,7 @@ def gameloop():
     """This function run gameloop"""
     with open("highscore.txt", 'r') as hi_scr:
         highscore = hi_scr.read()
+
     exit_game = False
     game_over = False
     snake_x = 45
@@ -68,6 +69,7 @@ def gameloop():
         if game_over:
             with open("highscore.txt", "w") as f:
                 f.write(highscore)
+                
             gameWindow.fill('white')
             gameWindow.blit(bgimg, (0, 0))
             dipslay_text("Score: "+str(score), 'red', 350, 100)
@@ -110,8 +112,8 @@ def gameloop():
                 if score > int(highscore):
                     highscore = str(score)
 
-                # incease velocity 
-                inital_x_velocity += 0.1       
+                # incease velocity
+                inital_x_velocity += 0.1
                 inital_y_velocity += 0.1
                 # print(inital_x_velocity,inital_y_velocity)
 
@@ -128,10 +130,12 @@ def gameloop():
             if len(snake_list) > snake_length:
                 del snake_list[0]
 
-            if head in snake_list[:-1]: #logic to over game if snake touch itself
+            # logic to over game if snake touch itself
+            if head in snake_list[:-1]:  
                 game_over = True
 
-            if snake_x < 0 or snake_x > display_width or snake_y < 0 or snake_y > display_height: #logic to game over if snake touch walls
+            # logic to game over if snake touch walls
+            if snake_x < 0 or snake_x > display_width or snake_y < 0 or snake_y > display_height:
                 game_over = True
 
             plot_snake(gameWindow, "balck", snake_list, snake_size)
