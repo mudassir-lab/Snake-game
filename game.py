@@ -1,6 +1,7 @@
 """Snake Game"""
-import pygame
 import random
+import pygame
+
 
 pygame.init()
 display_width = 800
@@ -14,16 +15,19 @@ bgimg = pygame.transform.scale(bgimg, (display_width, display_height))
 
 
 def dipslay_text(text, color, x_value, y_value):
+    """This function display text at window"""
     screen_text = font.render(text, True, color)
     gameWindow.blit(screen_text, [x_value, y_value])
 
 
 def plot_snake(gameWindow, color, snake_list, snake_size):
+    """This function plot snake"""
     for x, y in snake_list:
         pygame.draw.rect(gameWindow, 'black', [x, y, snake_size, snake_size])
 
 
 def welcome():
+    """This function display welcome page"""
     exit_game = False
     while not exit_game:
         gameWindow.blit(bgimg, (0, 0))
@@ -40,8 +44,9 @@ def welcome():
 
 
 def gameloop():
-    with open("highscore.txt", 'r') as f:
-        highscore = f.read()
+    """This function run gameloop"""
+    with open("highscore.txt", 'r') as hi_scr:
+        highscore = hi_scr.read()
     exit_game = False
     game_over = False
     snake_x = 45
@@ -96,6 +101,7 @@ def gameloop():
             snake_x += velocity_x
             snake_y += velocity_y
 
+            # logic to eat food and incease score
             if abs(snake_x - food_x) < 15 and abs(snake_y - food_y) < 15:
                 score += 10
                 food_x = random.randint(20, display_width-20)
@@ -104,7 +110,8 @@ def gameloop():
                 if score > int(highscore):
                     highscore = str(score)
 
-                inital_x_velocity += 0.1
+                # incease velocity 
+                inital_x_velocity += 0.1       
                 inital_y_velocity += 0.1
                 # print(inital_x_velocity,inital_y_velocity)
 
@@ -121,10 +128,10 @@ def gameloop():
             if len(snake_list) > snake_length:
                 del snake_list[0]
 
-            if head in snake_list[:-1]:
+            if head in snake_list[:-1]: #logic to over game if snake touch itself
                 game_over = True
 
-            if snake_x < 0 or snake_x > display_width or snake_y < 0 or snake_y > display_height:
+            if snake_x < 0 or snake_x > display_width or snake_y < 0 or snake_y > display_height: #logic to game over if snake touch walls
                 game_over = True
 
             plot_snake(gameWindow, "balck", snake_list, snake_size)
